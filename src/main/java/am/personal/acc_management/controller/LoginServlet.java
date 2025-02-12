@@ -11,12 +11,12 @@ import java.util.List;
 import am.personal.acc_management.Model.Product;
 import am.personal.acc_management.Model.User;
 import am.personal.acc_management.Repo.accRepoJDBC;
-import am.personal.acc_management.Repo.cartRepo;
-import am.personal.acc_management.Repo.productRepo;
+import am.personal.acc_management.Repo.cartRepoJDBC;
+import am.personal.acc_management.Repo.productRepoJDBC;
 import am.personal.acc_management.Service.accService;
 import am.personal.acc_management.Service.cartService;
 import am.personal.acc_management.Service.productService;
-import am.personal.acc_management.util.DBconnection;
+import am.personal.acc_management.util.DBconnectionJDBC;
 import am.personal.acc_management.util.Exceptions.InvalidInputException;
 
 public class LoginServlet extends HttpServlet {
@@ -25,9 +25,9 @@ public class LoginServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        accService accservice = new accService(new accRepoJDBC(DBconnection.getDB().getConn()));
-        productService productservice = new productService(new productRepo(DBconnection.getDB().getConn()));
-        cartService cartservice = new cartService(new cartRepo(DBconnection.getDB().getConn()));
+        accService accservice = new accService(new accRepoJDBC(DBconnectionJDBC.getDB().getConn()));
+        productService productservice = new productService(new productRepoJDBC(DBconnectionJDBC.getDB().getConn()));
+        cartService cartservice = new cartService(new cartRepoJDBC(DBconnectionJDBC.getDB().getConn()));
 
         try {
             User user = accservice.getUser(email,password);
@@ -40,7 +40,7 @@ public class LoginServlet extends HttpServlet {
             {
                 StoreCredentials(resp, email, password);
             }
-            req.getRequestDispatcher("/AuthOnly/home.jsp").forward(req, resp);
+            resp.sendRedirect("AuthOnly/home.jsp");
         } catch (InvalidInputException e) {
             req.setAttribute("ErrorMessage", e.getMessage());
             req.getRequestDispatcher("signin.jsp").forward(req, resp);

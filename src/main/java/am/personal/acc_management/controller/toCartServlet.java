@@ -1,12 +1,12 @@
 package am.personal.acc_management.controller;
 
 import am.personal.acc_management.Repo.accRepoJDBC;
-import am.personal.acc_management.Repo.cartRepo;
-import am.personal.acc_management.Repo.productRepo;
+import am.personal.acc_management.Repo.cartRepoJDBC;
+import am.personal.acc_management.Repo.productRepoJDBC;
 import am.personal.acc_management.Service.accService;
 import am.personal.acc_management.Service.cartService;
 import am.personal.acc_management.Service.productService;
-import am.personal.acc_management.util.DBconnection;
+import am.personal.acc_management.util.DBconnectionJDBC;
 import am.personal.acc_management.util.Exceptions.NoProductException;
 
 import javax.servlet.ServletException;
@@ -21,9 +21,9 @@ public class toCartServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String productName = req.getParameter("productName");
         String email = (String)req.getParameter("email");
-        productService productservice = new productService(new productRepo(DBconnection.getDB().getConn()));
-        accService accservice = new accService(new accRepoJDBC(DBconnection.getDB().getConn()));
-        cartService cartservice = new cartService(new cartRepo(DBconnection.getDB().getConn()));
+        productService productservice = new productService(new productRepoJDBC(DBconnectionJDBC.getDB().getConn()));
+        accService accservice = new accService(new accRepoJDBC(DBconnectionJDBC.getDB().getConn()));
+        cartService cartservice = new cartService(new cartRepoJDBC(DBconnectionJDBC.getDB().getConn()));
 
         try {
             productservice.removeProduct(productName);

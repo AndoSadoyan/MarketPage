@@ -1,18 +1,17 @@
 package am.personal.acc_management.Repo;
 
 import am.personal.acc_management.Model.Product;
-import am.personal.acc_management.util.DBconnection;
 import am.personal.acc_management.util.Exceptions.NoProductException;
 
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class productRepo {
+public class productRepoJDBC {
     private final Connection conn;
 
 
-    public productRepo(Connection conn)
+    public productRepoJDBC(Connection conn)
     {
         this.conn = conn;
         Statement stmt= null;

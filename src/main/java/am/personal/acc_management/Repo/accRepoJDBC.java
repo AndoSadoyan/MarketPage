@@ -6,8 +6,9 @@ import am.personal.acc_management.util.Exceptions.UserExistsException;
 
 import java.sql.*;
 
-public class accRepoJDBC {
+public class accRepoJDBC implements accRepo{
     private final Connection conn;
+
 
     public accRepoJDBC(Connection conn)
     {
@@ -21,7 +22,7 @@ public class accRepoJDBC {
                             "email varchar(255) not null unique ,"+
                             "username varchar(255) not null ," +
                             "password varchar(40) not null ,"+
-                            "balance double precision not null )");
+                            "balance double precision not null default 0 )");
             stmt.close();
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -74,30 +75,61 @@ public class accRepoJDBC {
         }
     }
 
-    public void changePassword(String email, String newPassword){
+    @Override
+    public User getUser(int id) throws InvalidInputException {
 
-        try {
-            var stmt = conn.prepareStatement("UPDATE accounts SET password=? where email=?");
-            stmt.setString(1, newPassword);
-            stmt.setString(2, email);
-            stmt.executeUpdate();
-            stmt.close();
-        } catch (SQLException e) {
+        try(var stmt = conn.prepareStatement("Select * From accounts where acc_id=?"))
+        {
+            stmt.setInt(1, id);
+            var ResultSet = stmt.executeQuery();
+            if(!ResultSet.next())
+                throw new InvalidInputException("Invalid id");
+            return new User(ResultSet.getString("email"),
+                    ResultSet.getString("username"),
+                    ResultSet.getString("password"),
+                    ResultSet.getInt("balance"));
+        }
+        catch (SQLException e)
+        {
             throw new RuntimeException(e);
         }
     }
-
-    public void updateBalance(String email, int newBalance)
+    @Override
+    public User getUserByEmail(String email) throws InvalidInputException
     {
-        try {
-            var stmt = conn.prepareStatement("UPDATE accounts SET balance = ? where email = ?");
-            stmt.setInt(1, newBalance);
-            stmt.setString(2, email);
-            stmt.executeUpdate();
-            stmt.close();
-        } catch (SQLException e) {
+
+        try(var stmt = conn.prepareStatement("Select * From accounts where email=?"))
+        {
+            stmt.setString(1, email);
+            var ResultSet = stmt.executeQuery();
+            if(!ResultSet.next())
+                throw new InvalidInputException("Invalid email");
+            return new User(ResultSet.getString("email"),
+                    ResultSet.getString("username"),
+                    ResultSet.getString("password"),
+                    ResultSet.getInt("balance"));
+        }
+        catch (SQLException e)
+        {
             throw new RuntimeException(e);
         }
-
     }
+
+    @Override
+    public void updateUser(User user) {
+
+        try (PreparedStatement stmt = conn.prepareStatement("UPDATE accounts SET username=?," +
+                " password=?, balance=? where email =?")) {
+            stmt.setString(1, user.getUsername());
+            stmt.setString(2, user.getPassword());
+            stmt.setInt(3, user.getBalance());
+            stmt.setString(4, user.getEmail());
+            stmt.executeUpdate();
+        }
+        catch (SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
+    }
+
 }

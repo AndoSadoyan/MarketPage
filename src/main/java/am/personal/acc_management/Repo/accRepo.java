@@ -9,11 +9,8 @@ import java.sql.*;
 public interface accRepo {
 
     public void addUser(User user) throws UserExistsException;
-
     public User getUser(int id) throws InvalidInputException;
     public User getUserByEmail(String email) throws InvalidInputException;
+    public void updateUser(User user) throws UserExistsException;
 
-    public void changePassword(String email, String newPassword);
-
-    public void updateBalance(String email, int newBalance);
 }

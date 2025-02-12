@@ -75,7 +75,7 @@
 
 <div class="action-buttons">
     <button style="background: aqua">
-        <a href="AuthOnly/changePassword.jsp" style="text-decoration: none">Change Password</a>
+        <a href="changePassword.jsp" style="text-decoration: none">Change Password</a>
     </button>
     <form method="post" action="/logout">
         <button style="background: crimson  ">Sign out</button>

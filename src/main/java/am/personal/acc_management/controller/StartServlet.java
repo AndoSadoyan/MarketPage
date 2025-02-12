@@ -3,10 +3,10 @@ package am.personal.acc_management.controller;
 import am.personal.acc_management.Model.Product;
 import am.personal.acc_management.Model.User;
 import am.personal.acc_management.Repo.accRepoJDBC;
-import am.personal.acc_management.Repo.productRepo;
+import am.personal.acc_management.Repo.productRepoJDBC;
 import am.personal.acc_management.Service.accService;
 import am.personal.acc_management.Service.productService;
-import am.personal.acc_management.util.DBconnection;
+import am.personal.acc_management.util.DBconnectionJDBC;
 import am.personal.acc_management.util.Exceptions.InvalidInputException;
 
 import javax.servlet.ServletException;
@@ -31,8 +31,8 @@ public class StartServlet extends HttpServlet {
                 password = cookie.getValue();
         }
 
-        accService accservice = new accService(new accRepoJDBC(DBconnection.getDB().getConn()));
-        productService productservice = new productService(new productRepo(DBconnection.getDB().getConn()));
+        accService accservice = new accService(new accRepoJDBC(DBconnectionJDBC.getDB().getConn()));
+        productService productservice = new productService(new productRepoJDBC(DBconnectionJDBC.getDB().getConn()));
 
         if(email != null && password != null) {
             try {

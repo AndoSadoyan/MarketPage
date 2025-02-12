@@ -1,18 +1,14 @@
 package am.personal.acc_management;
 
 
-import am.personal.acc_management.Model.Product;
-import am.personal.acc_management.util.DBconnection;
+import am.personal.acc_management.util.DBconnectionJDBC;
 
-import javax.servlet.http.Cookie;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Main {
     public static void main(String[] args)
     {
-        DBconnection db = DBconnection.getDB();
+        DBconnectionJDBC db = DBconnectionJDBC.getDB();
         var conn = db.getConn();
         String acc_email = "aperik1@gmail.com";
 

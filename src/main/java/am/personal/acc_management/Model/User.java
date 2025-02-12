@@ -1,10 +1,7 @@
 package am.personal.acc_management.Model;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -12,8 +9,9 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 @Entity
-
+@Table(name = "accounts")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,6 +25,14 @@ public class User {
     @Column(nullable = false)
     Integer balance;
 
+    public User(String email, String username, String password, Integer balance)
+    {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.balance = balance;
+    }
+
     @PrePersist
     private void prePersist() {
         if (balance == null) {
@@ -34,3 +40,6 @@ public class User {
         }
     }
 }
+
+
+

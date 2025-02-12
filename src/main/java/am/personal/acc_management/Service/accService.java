@@ -31,8 +31,9 @@ public class accService {
             throw new InvalidInputException("Invalid Password");
         if(!new1.equals(new2))
             throw new InvalidInputException("Passwords do not match");
-        DB.changePassword(email,new1);
-
+        var user = DB.getUserByEmail(email);
+        user.setPassword(new1);
+        DB.updateUser(user);
     }
 
     public void pay(String email, int amount)

@@ -1,18 +1,15 @@
 package am.personal.acc_management.Service;
 
 import am.personal.acc_management.Model.Product;
-import am.personal.acc_management.Repo.cartRepo;
-import am.personal.acc_management.Repo.productRepo;
-import am.personal.acc_management.util.DBconnection;
-import am.personal.acc_management.util.Exceptions.NoProductException;
+import am.personal.acc_management.Repo.cartRepoJDBC;
 
 import java.util.List;
 
 public class cartService {
 
-    private final cartRepo DB;
+    private final cartRepoJDBC DB;
 
-    public cartService(cartRepo DB)
+    public cartService(cartRepoJDBC DB)
     {
         this.DB = DB;
     }

@@ -1,15 +1,15 @@
 package am.personal.acc_management.Service;
 
 import am.personal.acc_management.Model.Product;
-import am.personal.acc_management.Repo.productRepo;
+import am.personal.acc_management.Repo.productRepoJDBC;
 import am.personal.acc_management.util.Exceptions.NoProductException;
 
 import java.util.List;
 
 public class productService {
-    productRepo DB;
+    productRepoJDBC DB;
 
-    public productService(productRepo repo)
+    public productService(productRepoJDBC repo)
     {
         DB = repo;
     }

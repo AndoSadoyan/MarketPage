@@ -3,7 +3,7 @@ package am.personal.acc_management.controller;
 import am.personal.acc_management.Model.User;
 import am.personal.acc_management.Repo.accRepoJDBC;
 import am.personal.acc_management.Service.accService;
-import am.personal.acc_management.util.DBconnection;
+import am.personal.acc_management.util.DBconnectionJDBC;
 import am.personal.acc_management.util.Exceptions.InvalidInputException;
 
 import javax.servlet.ServletException;
@@ -17,7 +17,7 @@ public class changeServlet extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         User user = (User)req.getSession().getAttribute("user");
-        accService accservice = new accService(new accRepoJDBC(DBconnection.getDB().getConn()));
+        accService accservice = new accService(new accRepoJDBC(DBconnectionJDBC.getDB().getConn()));
 
         try {
             if(user != null) {

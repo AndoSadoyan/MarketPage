@@ -8,10 +8,10 @@ import java.io.IOException;
 
 import am.personal.acc_management.Model.User;
 import am.personal.acc_management.Repo.accRepoJDBC;
-import am.personal.acc_management.Repo.productRepo;
+import am.personal.acc_management.Repo.productRepoJDBC;
 import am.personal.acc_management.Service.accService;
 import am.personal.acc_management.Service.productService;
-import am.personal.acc_management.util.DBconnection;
+import am.personal.acc_management.util.DBconnectionJDBC;
 import am.personal.acc_management.util.Exceptions.*;
 
 
@@ -23,15 +23,15 @@ public class RegServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        accService accService = new accService(new accRepoJDBC(DBconnection.getDB().getConn()));
+        accService accService = new accService(new accRepoJDBC(DBconnectionJDBC.getDB().getConn()));
         User user = new User(email,username,password,0);
-        productService productservice = new productService(new productRepo(DBconnection.getDB().getConn()));
+        productService productservice = new productService(new productRepoJDBC(DBconnectionJDBC.getDB().getConn()));
 
         try{
             accService.addUser(user);
             req.getSession().setAttribute("user", user);
             req.getSession().setAttribute("product", productservice.getAll());
-            req.getRequestDispatcher("/AuthOnly/home.jsp").forward(req, resp);
+            resp.sendRedirect("AuthOnly/home.jsp");
         }
         catch (InvalidInputException | UserExistsException e)
         {

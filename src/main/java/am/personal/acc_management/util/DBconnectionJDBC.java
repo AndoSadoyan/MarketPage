@@ -4,11 +4,11 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class DBconnection {
-    private static DBconnection instance;
+public class DBconnectionJDBC {
+    private static DBconnectionJDBC instance;
     private final Connection conn;
 
-    private DBconnection()
+    private DBconnectionJDBC()
     {
         final String url = "jdbc:postgresql://localhost:5432/registerpage";
         final String user = "postgres";
@@ -21,11 +21,11 @@ public class DBconnection {
         }
     }
 
-    public static DBconnection getDB()
+    public static DBconnectionJDBC getDB()
     {
         try {
             if(instance == null || instance.conn.isClosed())
-                instance = new DBconnection();
+                instance = new DBconnectionJDBC();
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

@@ -7,11 +7,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class cartRepo {
+public class cartRepoJDBC {
     private final Connection conn;
 
 
-    public cartRepo(Connection conn)
+    public cartRepoJDBC(Connection conn)
     {
         this.conn = conn;
         Statement stmt = null;
@@ -86,7 +86,7 @@ public class cartRepo {
             var getProductsStmt = conn.prepareStatement("Select product_name from cart where acc_email = ?");
             getProductsStmt.setString(1,email);
             ResultSet resultSet = getProductsStmt.executeQuery();
-            productService productservice = new productService(new productRepo(conn));
+            productService productservice = new productService(new productRepoJDBC(conn));
             List<Product> products = productservice.getAll();
             int sum = 0;
             while(resultSet.next())
