@@ -3,6 +3,7 @@ import am.personal.acc_management.Model.Product;
 import am.personal.acc_management.Model.User;
 import am.personal.acc_management.Repo.Account.accRepo;
 import am.personal.acc_management.util.Exceptions.*;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
@@ -15,6 +16,7 @@ public class accService {
         this.DB = DB;
     }
 
+    @Transactional
     public void addUser(User user) throws InvalidInputException, UserExistsException {
         validate(user.getEmail(), user.getPassword());
         var u = DB.getUserByEmail(user.getEmail());
@@ -23,6 +25,7 @@ public class accService {
         DB.addUser(user);
     }
 
+    @Transactional
     public User getUser(String email,String password) throws InvalidInputException
     {
         validEmail(email);
@@ -32,21 +35,24 @@ public class accService {
         }
         return user;
     }
-
+    @Transactional
     public User getUserByEmail(String email)
     {
         return DB.getUserByEmail(email);
     }
 
-    public void updateUser(User user) throws InvalidInputException, UserExistsException
+    @Transactional
+    public void addToCart(User user, Product product) throws InvalidInputException, UserExistsException
     {
-        validate(user.getEmail(), user.getPassword());
         var u = DB.getUserByEmail(user.getEmail());
-        u.setCart(new ArrayList<>(user.getCart()));
+        var cart = u.getCart();
+        if(cart == null)
+            cart = new ArrayList<>();
+        cart.add(product);
         DB.updateUser(u);
     }
 
-
+    @Transactional
     public void changePassword(String email,String new1, String new2) throws InvalidInputException {
         if(!validPassword(new1) || !validPassword(new2))
             throw new InvalidInputException("Invalid Password");
@@ -56,14 +62,6 @@ public class accService {
         user.setPassword(new1);
         DB.updateUser(user);
     }
-
-    public void addToCart(User user, Product product)
-    {
-
-    }
-
-
-
 
     private void validate(String email, String password) throws InvalidInputException
     {

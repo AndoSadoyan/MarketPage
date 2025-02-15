@@ -22,7 +22,7 @@ public class AuthFilter implements Filter {
         if(user == null)
         {
             req.setAttribute("ErrorMessage", "Please register first");
-            req.getRequestDispatcher("../index.jsp").forward(req,resp);
+            resp.sendRedirect("index.jsp");
         }
         chain.doFilter(request, response);
     }

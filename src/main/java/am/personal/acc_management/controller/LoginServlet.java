@@ -10,11 +10,9 @@ import java.util.List;
 
 import am.personal.acc_management.Model.Product;
 import am.personal.acc_management.Model.User;
-import am.personal.acc_management.Repo.Account.accRepoJPA;
-import am.personal.acc_management.Repo.Product.productRepoJPA;
 import am.personal.acc_management.Service.accService;
-import am.personal.acc_management.Service.cartService;
 import am.personal.acc_management.Service.productService;
+import am.personal.acc_management.myBeans;
 import am.personal.acc_management.util.Exceptions.InvalidInputException;
 
 public class LoginServlet extends HttpServlet {
@@ -23,9 +21,8 @@ public class LoginServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        accService accservice = new accService(new accRepoJPA());
-        productService productservice = new productService(new productRepoJPA());
-        //cartService cartservice = new cartService(new cartRepoJPA());
+        accService accservice = myBeans.accServiceBean;
+        productService productservice = myBeans.productServiceBean;
 
         try {
             User user = accservice.getUser(email,password);

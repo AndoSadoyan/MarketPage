@@ -7,14 +7,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import am.personal.acc_management.Model.User;
-import am.personal.acc_management.Repo.Account.accRepoJDBC;
-import am.personal.acc_management.Repo.Account.accRepoJPA;
-import am.personal.acc_management.Repo.Product.productRepoJDBC;
-import am.personal.acc_management.Repo.Product.productRepoJPA;
 import am.personal.acc_management.Service.accService;
 import am.personal.acc_management.Service.productService;
-import am.personal.acc_management.util.DBconnectionJDBC;
 import am.personal.acc_management.util.Exceptions.*;
+import am.personal.acc_management.myBeans;
 
 
 public class RegServlet extends HttpServlet {
@@ -25,9 +21,9 @@ public class RegServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        accService accService = new accService(new accRepoJPA());
+        accService accService = myBeans.accServiceBean;
         User user = new User(email,username,password,0);
-        productService productservice = new productService(new productRepoJPA());
+        productService productservice = myBeans.productServiceBean;
         try{
             accService.addUser(user);
             req.getSession().setAttribute("user", user);

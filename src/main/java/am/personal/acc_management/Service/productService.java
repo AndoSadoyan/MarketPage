@@ -3,6 +3,7 @@ package am.personal.acc_management.Service;
 import am.personal.acc_management.Model.Product;
 import am.personal.acc_management.Repo.Product.productRepo;
 import am.personal.acc_management.util.Exceptions.NoProductException;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -14,27 +15,38 @@ public class productService {
         DB = repo;
     }
 
+    @Transactional
     public void addProduct(Product product)
     {
-        DB.save(product);
+        Product pr = DB.getProductByName(product.getName());
+        if(pr==null)
+            DB.save(product);
+        else
+        {
+            pr.setAmount(pr.getAmount()+1);
+            DB.update(pr);
+        }
     }
 
-    public Product getProduct(String name) throws NoProductException {
-        Product product = DB.getProductByName(name);
-        if(product == null)
-            throw new NoProductException("No such product");
-        return product;
+    @Transactional
+    public Product getProduct(String name) {
+        return DB.getProductByName(name);
     }
 
+    @Transactional
     public List<Product> getAll()
     {
         return DB.getAllProducts();
     }
 
+    @Transactional
     public void removeProduct(String name) throws NoProductException {
-        var product = DB.getProductByName(name);
-        if(product == null)
-            throw new NoProductException("No such product");
-        DB.remove(product);
+        Product product = DB.getProductByName(name);
+        if(product.getAmount()==1)
+            DB.delete(product);
+        else {
+            product.setAmount(product.getAmount()-1);
+            DB.update(product);
+        }
     }
 }

@@ -1,47 +1,32 @@
 package am.personal.acc_management.Repo.Account;
 
 import am.personal.acc_management.Model.User;
-import am.personal.acc_management.util.DBconnectionJPA;
-import am.personal.acc_management.util.Exceptions.InvalidInputException;
-import am.personal.acc_management.util.Exceptions.UserExistsException;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.persistence.NoResultException;
-import java.util.List;
 
 public class accRepoJPA implements accRepo{
-    private static SessionFactory sessionFactory;
-    public accRepoJPA()
+    private final SessionFactory sessionFactory;
+    public accRepoJPA(SessionFactory sessionFactory)
     {
-        sessionFactory = DBconnectionJPA.getSessionFactory();
+        this.sessionFactory = sessionFactory;
     }
 
     @Override
-    @Transactional
     public void addUser(User user){
-        var session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.save(user);
-        session.getTransaction().commit();
-        session.close();
+        sessionFactory.getCurrentSession().save(user);
     }
 
     @Override
     public User getUser(int id) {
-        var session = sessionFactory.openSession();
-        session.beginTransaction();
-        User user =session.get(User.class, id);
-        session.getTransaction().commit();
-        session.close();
-        return user;
+        return sessionFactory.getCurrentSession().get(User.class, id);
     }
 
     @Override
     public User getUserByEmail(String email)  {
-        var session = sessionFactory.openSession();
-        session.beginTransaction();
+        var session = sessionFactory.getCurrentSession();
         NativeQuery<User> nativeQuery = session.createNativeQuery(
                 "SELECT * FROM accounts WHERE email = :email", User.class);
         nativeQuery.setParameter("email", email);
@@ -59,10 +44,6 @@ public class accRepoJPA implements accRepo{
 
     @Override
     public void updateUser(User user) {
-        var session = sessionFactory.openSession();
-        session.beginTransaction();
-        session.update(user);
-        session.getTransaction().commit();
-        session.close();
+        sessionFactory.getCurrentSession().update(user);
     }
 }

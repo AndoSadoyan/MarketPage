@@ -7,7 +7,8 @@ import java.util.List;
 
 public interface productRepo {
     public void save(Product product);
-    public void remove(Product product);
+    public void delete(Product product);
+    public void update(Product product);
     public Product getProduct(Long id);
     public Product getProductByName(String productName);
     public List<Product> getAllProducts();
