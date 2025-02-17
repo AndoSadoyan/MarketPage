@@ -20,8 +20,8 @@ public class toCartServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String productName = req.getParameter("productName");
         String email = req.getParameter("email");
-        productService productservice = myBeans.productServiceBean;
-        accService accservice = myBeans.accServiceBean;
+        productService productservice = myBeans.productServiceBean();
+        accService accservice = myBeans.accServiceBean();
 
         try {
             var product = productservice.getProduct(productName);

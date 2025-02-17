@@ -3,12 +3,11 @@ package am.personal.acc_management.Repo.Account;
 import am.personal.acc_management.Model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import javax.persistence.NoResultException;
 
 public class accRepoJPA implements accRepo{
-    private final SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
     public accRepoJPA(SessionFactory sessionFactory)
     {
         this.sessionFactory = sessionFactory;
@@ -37,13 +36,11 @@ public class accRepoJPA implements accRepo{
         catch (NoResultException e) {
             return null;
         }
-        session.getTransaction().commit();
-        session.close();
         return user;
     }
 
     @Override
     public void updateUser(User user) {
-        sessionFactory.getCurrentSession().update(user);
+        sessionFactory.getCurrentSession().merge(user);
     }
 }

@@ -42,11 +42,7 @@ public class productService {
     @Transactional
     public void removeProduct(String name) throws NoProductException {
         Product product = DB.getProductByName(name);
-        if(product.getAmount()==1)
-            DB.delete(product);
-        else {
-            product.setAmount(product.getAmount()-1);
-            DB.update(product);
-        }
+        product.setAmount(Math.min(product.getAmount()-1,0));
+        DB.update(product);
     }
 }

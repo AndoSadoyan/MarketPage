@@ -37,5 +37,4 @@ public class Product {
             amount = 0;
         }
     }
-
 }

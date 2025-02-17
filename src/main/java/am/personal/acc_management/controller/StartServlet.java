@@ -21,20 +21,23 @@ public class StartServlet extends HttpServlet {
         String email = null;
         String password = null;
 
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("CredE"))
-                email = cookie.getValue();
-            if (cookie.getName().equals("CredP"))
-                password = cookie.getValue();
+        if(cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("CredE"))
+                    email = cookie.getValue();
+                if (cookie.getName().equals("CredP"))
+                    password = cookie.getValue();
+            }
         }
 
-        accService accservice = myBeans.accServiceBean;
-        productService productservice = myBeans.productServiceBean;
+        accService accservice = myBeans.accServiceBean();
+        productService productservice = myBeans.productServiceBean();
 
         if(email != null && password != null) {
             User user = accservice.getUserByEmail(email);
             if(!user.getPassword().equals(password)) {
                 resp.sendRedirect("index.jsp");
+                return;
             }
             List<Product> products = productservice.getAll();
             List<Product> cart = user.getCart();
@@ -42,7 +45,7 @@ public class StartServlet extends HttpServlet {
             req.getSession().setAttribute("products", products);
             req.getSession().setAttribute("cart", cart);
             LoginServlet.StoreCredentials(resp, email, password);
-            req.getRequestDispatcher("/AuthOnly/home.jsp").forward(req, resp);
+            resp.sendRedirect("/AuthOnly/home.jsp");
         }
         else
         {

@@ -21,9 +21,9 @@ public class RegServlet extends HttpServlet {
         String username = req.getParameter("username");
         String password = req.getParameter("password");
 
-        accService accService = myBeans.accServiceBean;
+        accService accService = myBeans.accServiceBean();
         User user = new User(email,username,password,0);
-        productService productservice = myBeans.productServiceBean;
+        productService productservice = myBeans.productServiceBean();
         try{
             accService.addUser(user);
             req.getSession().setAttribute("user", user);

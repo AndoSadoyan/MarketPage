@@ -21,8 +21,8 @@ public class LoginServlet extends HttpServlet {
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String email = req.getParameter("email");
         String password = req.getParameter("password");
-        accService accservice = myBeans.accServiceBean;
-        productService productservice = myBeans.productServiceBean;
+        accService accservice = myBeans.accServiceBean();
+        productService productservice = myBeans.productServiceBean();
 
         try {
             User user = accservice.getUser(email,password);
@@ -40,11 +40,6 @@ public class LoginServlet extends HttpServlet {
             req.setAttribute("ErrorMessage", e.getMessage());
             req.getRequestDispatcher("signin.jsp").forward(req, resp);
         }
-
-
-
-
-
 
     }
 
