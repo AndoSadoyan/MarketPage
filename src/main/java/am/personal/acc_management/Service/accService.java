@@ -3,14 +3,18 @@ import am.personal.acc_management.Model.Product;
 import am.personal.acc_management.Model.User;
 import am.personal.acc_management.Repo.Account.accRepo;
 import am.personal.acc_management.util.Exceptions.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
-
+@Service
 public class accService {
     accRepo DB ;
 
+    @Autowired
     public accService(accRepo DB)
     {
         this.DB = DB;

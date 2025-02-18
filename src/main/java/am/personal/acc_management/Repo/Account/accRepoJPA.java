@@ -3,11 +3,17 @@ package am.personal.acc_management.Repo.Account;
 import am.personal.acc_management.Model.User;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.NativeQuery;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Primary;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 
+
+@Repository
 public class accRepoJPA implements accRepo{
     private SessionFactory sessionFactory;
+    @Autowired
     public accRepoJPA(SessionFactory sessionFactory)
     {
         this.sessionFactory = sessionFactory;

@@ -3,13 +3,17 @@ package am.personal.acc_management.Service;
 import am.personal.acc_management.Model.Product;
 import am.personal.acc_management.Repo.Product.productRepo;
 import am.personal.acc_management.util.Exceptions.NoProductException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class productService {
     productRepo DB;
 
+    @Autowired
     public productService(productRepo repo)
     {
         DB = repo;

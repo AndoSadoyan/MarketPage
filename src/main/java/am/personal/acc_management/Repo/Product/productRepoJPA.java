@@ -1,16 +1,19 @@
 package am.personal.acc_management.Repo.Product;
 
 import am.personal.acc_management.Model.Product;
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import javax.persistence.NoResultException;
 import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 public class productRepoJPA implements productRepo {
     SessionFactory sessionFactory;
 
+    @Autowired
     public productRepoJPA(SessionFactory sessionFactory)
     {
         this.sessionFactory = sessionFactory;
